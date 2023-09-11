@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 
 // J'importe mes routes.
-// const stuffRoutes = require("./routes/stuff.js");
+const bookRoutes = require("./routes/book.js");
 const userRoutes = require("./routes/user.js");
 const path = require("path");
 
@@ -34,8 +34,8 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use("/api/auth", userRoutes);
-// app.use("/api/stuff", stuffRoutes);
-// app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/api/books", bookRoutes);
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // EXPORT "app"
 module.exports = app;
