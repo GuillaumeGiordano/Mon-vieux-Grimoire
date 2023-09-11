@@ -1,17 +1,15 @@
-// J'importe "mongoose" pour l'utiliser
+// IMPORTS
 const mongoose = require("mongoose");
-
-// J'importe le package "mongoose-unique-validator"
 const uniqueValidator = require("mongoose-unique-validator");
 
-// Je crée mon Schema.
+// SCHEMA
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 
-// Cela permet de s'assurer que les uniques le sont bien !
+// UNIQUE ?
 userSchema.plugin(uniqueValidator);
 
-// J'exporte mon Schema pour l'utiliser.
+// EXPORT
 module.exports = mongoose.model("User", userSchema);

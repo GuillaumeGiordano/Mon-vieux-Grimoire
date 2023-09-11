@@ -3,8 +3,7 @@ const express = require("express");
 
 // J'importe mes routes.
 // const stuffRoutes = require("./routes/stuff.js");
-// const userRoutes = require("./routes/user.js");
-// J'importe path pour une route static
+const userRoutes = require("./routes/user.js");
 const path = require("path");
 
 // Connection BDD
@@ -16,7 +15,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connexion à MongoDB réussie2 !"))
+  .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 const app = express();
@@ -33,10 +32,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// je defini les routes
+// ROUTES
+app.use("/api/auth", userRoutes);
 // app.use("/api/stuff", stuffRoutes);
-// app.use("/api/auth", userRoutes);
 // app.use("/images", express.static(path.join(__dirname, "images")));
 
-// J'exporte "app" pour server.js.
+// EXPORT "app"
 module.exports = app;

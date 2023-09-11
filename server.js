@@ -23,7 +23,7 @@ const port = normalizePort(process.env.PORT || "3000");
 // Défini le PORT à "express"
 app.set("port", port);
 
-// Je ne sais pas trop !!!!!!!!!!!!
+// gére le type d'error
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -47,7 +47,6 @@ const errorHandler = (error) => {
 // Je crée mon serveur en mettant la methode "app" que j'ai créé avec "express"
 const server = http.createServer(app);
 
-// Je ne sais pas trop !!!!!!!!!!!!
 server.on("error", errorHandler);
 server.on("listening", () => {
   const address = server.address();
