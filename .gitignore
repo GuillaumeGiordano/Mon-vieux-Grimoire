@@ -1,0 +1,3 @@
+# Dossiers à ignorer pendant le git push
+node_modules
+.env
