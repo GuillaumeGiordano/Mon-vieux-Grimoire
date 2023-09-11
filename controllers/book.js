@@ -97,9 +97,9 @@ exports.getAllBooks = (req, res, next) => {
 };
 
 // GET_BEST_BOOKS
-// exports.getBestBooks = (req, res, next) => {
-
-// };
+exports.getBestBooks = (req, res, next) => {
+  // ICI
+};
 
 // RATING
 // exports.updateRating = (req, res, next) => {
