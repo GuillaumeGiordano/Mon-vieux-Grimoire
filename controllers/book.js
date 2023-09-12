@@ -98,11 +98,10 @@ exports.getAllBooks = (req, res, next) => {
 // GET_BEST_BOOKS
 exports.getBestBooks = (req, res, next) => {
   Book.find()
-    .then((book) => {
-      console.log(book);
-      book.sort({ averageRating: -1 });
-      book.limit(3);
-      res.status(200).json(book);
+    .sort({ averageRating: -1 }) // Triez les livres par note moyenne décroissante
+    .limit(3) // Limitez les résultats à 3 livres
+    .then((books) => {
+      res.status(200).json(books); // Renvoyez les 3 meilleurs livres
     })
     .catch((error) => res.status(400).json({ error }));
 };
@@ -110,22 +109,48 @@ exports.getBestBooks = (req, res, next) => {
 // NEW_RATING
 // L'idee, c'est de rajouter une note dans le tableau en vérifiant si c'est un nouveau user !
 exports.createRating = (req, res, next) => {
-  const gradeObject = { ...req.body };
-  console.log(gradeObject);
+  const userId = req.body.userId;
+  const rating = req.body.rating;
 
-  Book.findByIdAndUpdate(
-    { _id: req.params.id },
-    // $addToSet => Adds elements to an array only if they do not already exist in the set.
-    // { $push: { ratings: { userId: req.body.userId, grade: req.body.rating } } },
-    {
-      $push: {
-        "ratings.$[].userId": req.body.userId,
-        "ratings.$[].grade": req.body.rating,
-      },
-    },
+  // Vérifiez que la note est entre 0 et 5
+  if (rating < 0 || rating > 5) {
+    return res.status(400).json({ error: "La note doit être comprise entre 0 et 5." });
+  }
 
-    { new: false }
-  )
-    .then(() => res.status(200).send({ message: "Note modifiée, bravo !" }))
-    .catch((error) => res.status(400).json({ error }));
+  // Recherchez le livre par son ID
+  Book.findById(req.params.id)
+    .then((book) => {
+      if (!book) {
+        return res.status(404).json({ error: "Livre introuvable." });
+      }
+
+      // Vérifiez si l'utilisateur a déjà noté ce livre
+      const existingRating = book.ratings.find((r) => r.userId === userId);
+
+      if (existingRating) {
+        return res.status(400).json({ error: "L'utilisateur a déjà noté ce livre." });
+      }
+
+      // Ajoutez la nouvelle note à la liste des notations
+      book.ratings.push({ userId, grade: rating });
+
+      // Calculez la nouvelle note moyenne
+      const totalRatings = book.ratings.length;
+      const sumRatings = book.ratings.reduce((sum, r) => sum + r.grade, 0);
+      book.averageRating = sumRatings / totalRatings;
+
+      // Enregistrez les modifications dans la base de données
+      return book.save();
+    })
+    .then((updatedBook) => {
+      res.status(200).json({
+        message: "Note ajoutée avec succès.",
+        book: updatedBook,
+      });
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ error: "Une erreur est survenue lors de la notation du livre." });
+    });
 };

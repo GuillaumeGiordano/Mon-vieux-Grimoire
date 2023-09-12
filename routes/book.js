@@ -10,10 +10,10 @@ const router = express.Router();
 // ROUTES & CONTROLLERS
 router.get("/", bookCtrl.getAllBooks);
 router.get("/:id", bookCtrl.getOneBook);
+router.get("/bestrating", bookCtrl.getBestBooks);
 router.post("/", auth, multer, bookCtrl.createBook);
 router.put("/:id", auth, multer, bookCtrl.updateBook);
 router.delete("/:id", auth, bookCtrl.deleteBook);
-router.get("/bestrating", bookCtrl.getBestBooks);
 router.post("/:id/rating", auth, bookCtrl.createRating);
 
 // Export "router" pour "app"
