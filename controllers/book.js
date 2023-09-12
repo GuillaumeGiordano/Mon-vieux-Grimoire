@@ -11,7 +11,6 @@ const fs = require("fs");
 // POST
 exports.createBook = (req, res, next) => {
   // Je parse la requete modifier par multer : JSON.parse() transforme un objet stringifié en Object JavaScript exploitable.
-  console.log(req);
   const bookObjet = JSON.parse(req.body.book);
   // Je supp les ID car mongoDB le fait auto et je ne fais pas confiance au user !
   delete bookObjet._id;
@@ -98,10 +97,35 @@ exports.getAllBooks = (req, res, next) => {
 
 // GET_BEST_BOOKS
 exports.getBestBooks = (req, res, next) => {
-  // ICI
+  Book.find()
+    .then((book) => {
+      console.log(book);
+      book.sort({ averageRating: -1 });
+      book.limit(3);
+      res.status(200).json(book);
+    })
+    .catch((error) => res.status(400).json({ error }));
 };
 
-// RATING
-// exports.updateRating = (req, res, next) => {
+// NEW_RATING
+// L'idee, c'est de rajouter une note dans le tableau en vérifiant si c'est un nouveau user !
+exports.createRating = (req, res, next) => {
+  const gradeObject = { ...req.body };
+  console.log(gradeObject);
 
-// };
+  Book.findByIdAndUpdate(
+    { _id: req.params.id },
+    // $addToSet => Adds elements to an array only if they do not already exist in the set.
+    // { $push: { ratings: { userId: req.body.userId, grade: req.body.rating } } },
+    {
+      $push: {
+        "ratings.$[].userId": req.body.userId,
+        "ratings.$[].grade": req.body.rating,
+      },
+    },
+
+    { new: false }
+  )
+    .then(() => res.status(200).send({ message: "Note modifiée, bravo !" }))
+    .catch((error) => res.status(400).json({ error }));
+};

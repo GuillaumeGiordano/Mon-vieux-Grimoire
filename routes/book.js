@@ -13,9 +13,8 @@ router.get("/:id", bookCtrl.getOneBook);
 router.post("/", auth, multer, bookCtrl.createBook);
 router.put("/:id", auth, multer, bookCtrl.updateBook);
 router.delete("/:id", auth, bookCtrl.deleteBook);
-
-// router.get("/bestrating", bookCtrl.getBestBooks);
-// router.post("/:id/rating", auth, bookCtrl.updateRating);
+router.get("/bestrating", bookCtrl.getBestBooks);
+router.post("/:id/rating", auth, bookCtrl.createRating);
 
 // Export "router" pour "app"
 module.exports = router;

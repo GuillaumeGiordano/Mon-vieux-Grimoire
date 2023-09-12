@@ -1,23 +1,16 @@
 require("dotenv").config();
-const express = require("express");
 
-// J'importe mes routes.
+// IMPORTS
+const express = require("express");
 const bookRoutes = require("./routes/book.js");
 const userRoutes = require("./routes/user.js");
 const path = require("path");
+const connectDb = require("./config/db.js");
 
-// Connection BDD
-const apiUser = process.env.USER_BDD;
-const apiKey = process.env.PASSWORD_BDD;
-const mongoose = require("mongoose");
-mongoose
-  .connect(`mongodb+srv://${apiUser}:${apiKey}@cluster0.ec3aaw9.mongodb.net/OC_P7`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+// CNX_BDD
+connectDb();
 
+// INIT
 const app = express();
 app.use(express.json());
 
