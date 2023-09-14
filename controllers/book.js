@@ -1,5 +1,6 @@
 // J'importe mon model "Book"
 const Book = require("../models/Book.js");
+const sharp = require("sharp");
 
 /**
  * fs  signifie « file system » (soit « système de fichiers », en français).
@@ -20,18 +21,49 @@ exports.getBestBooks = (req, res, next) => {
 };
 
 // POST
-exports.createBook = (req, res, next) => {
+exports.createBook = async (req, res, next) => {
+  // Je vérifi si j'ai bien un file dans ma requete !
+  if (!req.file) {
+    return res.status(400).json({ message: "Aucune image téléchargée." });
+  }
+
+  // je récupére son nom et son extention
+  const imageName = req.file.filename;
+  const extention = req.file.mimetype.replace(/^image\//i, "");
+  console.log("le nom de l'image envoyé par multer : " + imageName);
+  console.log("l'extention de l'image' : " + extention);
+
+  // Je récupére l'image stocké par multer
+  const imagePath = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+  const imagePath2 = req.file.path;
+  console.log("le imagePath : " + imagePath);
+  console.log("le imagePath 2 : " + imagePath2);
+
+  // Nouveau name de l'image opti
+  const optimizedImage = `${imageName}_opti_${Date.now()}.${extention}`;
+
+  // Je redimmenssione l'image
+  await sharp(imagePath2)
+    .resize({ width: 800, height: 600 })
+    .toFile(`images/${optimizedImage}`);
+
+  // Supprimez l'ancien fichier image
+  fs.unlinkSync(imagePath2);
+
   // Je parse la requete modifier par multer : JSON.parse() transforme un objet stringifié en Object JavaScript exploitable.
   const bookObjet = JSON.parse(req.body.book);
+
   // Je supp les ID car mongoDB le fait auto et je ne fais pas confiance au user !
   delete bookObjet._id;
   delete bookObjet._userId;
+
   // Je crée mon nouveau objet avec un spray operateur en rajoutant les données
   const book = new Book({
     ...bookObjet,
     userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${optimizedImage}`,
   });
+
   // je sauvegarde mon nouveau "book"
   book
     .save()
