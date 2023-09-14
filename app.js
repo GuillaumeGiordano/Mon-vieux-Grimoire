@@ -25,6 +25,20 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use("/api/books/bestrating", (req, res, next) => {
+//   const Book = require("../models/Book.js");
+
+//   Book.find()
+//     .then((books) => {
+//       const threeBooks = books
+//         .sort((a, b) => b.averageRating - a.averageRating) // Triez les livres par note moyenne décroissante
+//         .limit(0, 3); // Limitez les résultats à 3 livres
+//       res.status(200).json(threeBooks); // Renvoyez les 3 meilleurs livres
+//     })
+//     .catch((error) => res.status(400).json({ error }));
+//   next();
+// });
+
 // ROUTES
 app.use("/api/auth", userRoutes);
 app.use("/api/books", bookRoutes);
