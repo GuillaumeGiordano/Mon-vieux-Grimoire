@@ -10,7 +10,7 @@ const connectDb = require("./config/db.js");
 // CNX_BDD
 connectDb();
 
-// INIT
+// INIT "express"
 const app = express();
 app.use(express.json());
 
