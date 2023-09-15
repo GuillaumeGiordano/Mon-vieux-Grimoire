@@ -1,13 +1,5 @@
 // J'importe mon model "Book"
 const Book = require("../../models/Book.js");
-const sharp = require("sharp");
-
-/**
- * fs  signifie « file system » (soit « système de fichiers », en français).
- * Il nous donne accès aux fonctions qui nous permettent de modifier le système de fichiers,
- * y compris aux fonctions permettant de supprimer les fichiers.
- */
-const fs = require("fs");
 
 // GET_BEST_BOOKS
 exports.getBestBooks = (req, res, next) => {

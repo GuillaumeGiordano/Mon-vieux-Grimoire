@@ -10,15 +10,40 @@ const sharp = require("sharp");
 const fs = require("fs");
 
 // PUTT
-exports.updateBook = (req, res, next) => {
-  // On verifi si il y a un fichier ?
-  const bookObjet = req.file
-    ? {
-        ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-      }
-    : { ...req.body };
-  // je supp le "userId" par sécurité !
+exports.updateBook = async (req, res, next) => {
+  // Initialise ma variable
+  let bookObjet = {};
+
+  if (req.file) {
+    // je récupére son nom et son extention
+    const imageName = req.file.filename.replace(/\.[^.]+$/, "");
+
+    // const extention = req.file.mimetype.replace(/^image\//i, "");
+    const extention = "png";
+
+    // Je récupére l'image stocké par multer
+    const imagePath = req.file.path;
+
+    // Nouveau name de l'image opti
+    const optimizedImage = `${imageName}_optimized.${extention}`;
+
+    // Je redimmenssione l'image
+    await sharp(imagePath)
+      .resize({ width: 800, height: 600 })
+      .toFile(`images/${optimizedImage}`);
+
+    // Supprimez l'ancien fichier image methode sync !!
+    fs.unlinkSync(imagePath);
+
+    bookObjet = {
+      ...JSON.parse(req.body.book),
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${optimizedImage}`,
+    };
+  } else {
+    bookObjet = { ...req.body };
+  }
+
+  //  je supp le "userId" car je ne souhaite pas le modifier !
   delete bookObjet._userId;
 
   // Je recherche mon objet suivant ID donné en params !
@@ -26,17 +51,25 @@ exports.updateBook = (req, res, next) => {
     .then((book) => {
       // La je vérifie si c'est le bon user !!
       if (book.userId != req.auth.userId) {
-        res.status(401).json({ message: "Non autorisé !" });
-      } else {
-        // Je trouve l'image
-        const fileName = book.imageUrl.split("/images/")[1];
-        // Je supp l'image du dossier image
-        fs.unlink(`images/${fileName}`, () => {
-          Book.updateOne({ _id: req.params.id }, { ...bookObjet, _id: req.params.id })
-            .then(() => res.status(200).json({ message: "Article modifié, bravo !" }))
-            .catch((error) => res.status(401).json({ error }));
-        });
+        return res.status(401).json({ message: "Non autorisé !" });
       }
+
+      // Je supp l'ancienne image du dossier images
+      try {
+        const oldFileName = book.imageUrl.split("/images/")[1];
+        fs.unlinkSync(`images/${oldFileName}`);
+      } catch (error) {
+        console.log("Pas possible de supprimer l'ancienne image");
+      }
+
+      // Je modifie mon enregistrement
+      Book.updateOne({ _id: req.params.id }, { ...bookObjet, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Article modifié, bravo !" }))
+        .catch((error) =>
+          res.status(401).json({ error, message: "Article non modifié, dommage !" })
+        );
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) =>
+      res.status(400).json({ error, message: "Article non trouvé, dommage !" })
+    );
 };

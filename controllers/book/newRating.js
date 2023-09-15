@@ -38,11 +38,10 @@ exports.newRating = (req, res, next) => {
       book.averageRating = sumRatings / totalRatings;
 
       // Enregistrez les modifications dans la base de données
-      return book.save();
-    })
-    .then((updateBook) => {
-      console.log(updateBook);
-      res.status(200).json({ updateBook });
+      book
+        .save()
+        .then(() => res.status(201).json(book))
+        .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => {
       res.status(500).json({
