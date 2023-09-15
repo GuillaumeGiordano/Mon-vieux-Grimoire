@@ -11,9 +11,12 @@ const storage = multer.diskStorage({
     callback(null, "images");
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(" ").join("_");
     const extension = MIME_TYPES[file.mimetype];
-    callback(null, name + Date.now() + "." + extension);
+    const bookObjet = JSON.parse(req.body.book);
+    const titleBook = bookObjet.title.split(" ").join("_");
+    const authorBook = bookObjet.author.split(" ").join("_");
+    const name = `${titleBook}_${authorBook}_${Date.now()}.${extension}`;
+    callback(null, name);
   },
 });
 
