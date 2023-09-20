@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "start",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "guillaume giordano",
   "license": "ISC",
