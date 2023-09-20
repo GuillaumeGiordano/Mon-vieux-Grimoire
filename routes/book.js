@@ -2,7 +2,8 @@
 const express = require("express");
 // IMPORTS "middleware"
 const auth = require("../middleware/auth.js");
-const multer = require("../middleware/multer-config.js");
+const uploadImage = require("../middleware/upload.js");
+const resizeAndSaveToDisk = require("../middleware/resizeAndSaveToDisk.js");
 // IMPORTS "controllers"
 const BookCtrlCreateNewBook = require("../controllers/book/createNewBook.js");
 const BookCtrlGetBestBooks = require("../controllers/book/getBestBooks.js");
@@ -19,8 +20,20 @@ const router = express.Router();
 router.get("/bestrating", BookCtrlGetBestBooks.getBestBooks);
 router.get("/", BookCtrlGetAllBooks.getAllBooks);
 router.get("/:id", BookCtrlGetOneBook.getOneBook);
-router.post("/", auth, multer, BookCtrlCreateNewBook.createNewBook);
-router.put("/:id", auth, multer, BookCtrlUpdateOneBook.updateBook);
+router.post(
+  "/",
+  auth,
+  uploadImage,
+  resizeAndSaveToDisk,
+  BookCtrlCreateNewBook.createNewBook
+);
+router.put(
+  "/:id",
+  auth,
+  uploadImage,
+  resizeAndSaveToDisk,
+  BookCtrlUpdateOneBook.updateBook
+);
 router.delete("/:id", auth, BookCtrlDeleteOneBook.deleteOneBook);
 router.post("/:id/rating", auth, BookCtrlNewRating.newRating);
 
