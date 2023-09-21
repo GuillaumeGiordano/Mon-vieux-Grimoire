@@ -1,19 +1,19 @@
 // Import
-const inputValidorUtil = require("../utils/inputValidatorUtil.js");
+const inputValidatorUtil = require("../utils/inputValidatorUtil.js");
 
 module.exports = (req, res, next) => {
   try {
+    console.log(req.body);
     const title = req.body.title;
     const author = req.body.author;
     const year = req.body.year;
     const genre = req.body.genre;
-
     // Utilisez la fonction de validatin input avec regex
     if (
-      !inputValidorUtil.isSafeInput(title) ||
-      !inputValidorUtil.isSafeInput(author) ||
-      !inputValidorUtil.isSafeInput(year) ||
-      !inputValidorUtil.isSafeInput(genre)
+      !inputValidatorUtil.isLettersAndDigits(title) ||
+      !inputValidatorUtil.isLettersAndDigits(author) ||
+      !inputValidatorUtil.isLettersAndDigits(genre) ||
+      !inputValidatorUtil.isYearNumber(year)
     ) {
       return res
         .status(410)

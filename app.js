@@ -15,21 +15,15 @@ connectDb();
 const app = express();
 app.use(express.json());
 
-// Utilisation de helmet pour activer les en-têtes sécurisés
-app.use(helmet());
-
 /*
  Configuration d'une CSP de base,Pour vérifier et
  protéger votre application Express contre les tentatives
  d'injection de code XSS (Cross-Site Scripting)
 */
+// Utilisation de helmet pour activer les en-têtes sécurisés
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'"],
-    },
+  helmet({
+    contentSecurityPolicy: false, // Désactivez la CSP par défaut de Helmet
   })
 );
 
@@ -47,6 +41,8 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/auth", userRoutes);
 app.use("/api/books", bookRoutes);
+
+// Servez des images statiques directement depuis le répertoire "images"
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 // EXPORT "app"
