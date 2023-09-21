@@ -2,8 +2,8 @@
 const express = require("express");
 // IMPORTS "middleware"
 const auth = require("../middleware/auth.js");
-// const validatorBook = require("../middleware/validatorBook.js");
-const uploadImage = require("../middleware/upload.js");
+const validatorBook = require("../middleware/validatorBook.js");
+const upload = require("../middleware/upload.js");
 const resizeAndSaveToDisk = require("../middleware/resizeAndSaveToDisk.js");
 // IMPORTS "controllers"
 const BookCtrlCreateNewBook = require("../controllers/book/createNewBook.js");
@@ -24,17 +24,17 @@ router.get("/:id", BookCtrlGetOneBook.getOneBook);
 router.post(
   "/",
   auth,
-  // validatorBook,
-  uploadImage,
-  resizeAndSaveToDisk,
+  upload.uploadImage,
+  resizeAndSaveToDisk.resizeAndSaveToDisk,
+  validatorBook.validatorBook,
   BookCtrlCreateNewBook.createNewBook
 );
 router.put(
   "/:id",
   auth,
-  // validatorBook,
-  uploadImage,
-  resizeAndSaveToDisk,
+  upload.uploadImage,
+  resizeAndSaveToDisk.resizeAndSaveToDisk,
+  validatorBook.validatorBook,
   BookCtrlUpdateOneBook.updateBook
 );
 router.delete("/:id", auth, BookCtrlDeleteOneBook.deleteOneBook);

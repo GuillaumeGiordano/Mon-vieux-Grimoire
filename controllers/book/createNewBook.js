@@ -15,7 +15,8 @@ exports.createNewBook = async (req, res, next) => {
     return res.status(400).json({ message: "Aucun fichier envoyé !" });
   }
 
-  // Je parse la requete modifier par multer : JSON.parse() transforme un objet stringifié en Object JavaScript exploitable.
+  // Je parse la requete modifier par multer :
+  // JSON.parse() transforme un objet stringifié en Object JavaScript exploitable.
   const bookObjet = JSON.parse(req.body.book);
 
   // Je défini le nom de ma photo

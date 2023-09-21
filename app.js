@@ -2,11 +2,11 @@ require("dotenv").config();
 
 // IMPORTS
 const express = require("express");
-const helmet = require("helmet");
 const bookRoutes = require("./routes/book.js");
 const userRoutes = require("./routes/user.js");
 const path = require("path");
 const connectDb = require("./config/db.js");
+const helmet = require("helmet");
 
 // CNX_BDD
 connectDb();
@@ -23,7 +23,19 @@ app.use(express.json());
 // Utilisation de helmet pour activer les en-têtes sécurisés
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Désactivez la CSP par défaut de Helmet
+    contentSecurityPolicy: true,
+    crossOriginEmbedderPolicy: true,
+    crossOriginOpenerPolicy: true,
+    crossOriginResourcePolicy: false, //false
+    dnsPrefetchControl: true,
+    expectCt: true,
+    frameguard: true,
+    hidePoweredBy: true,
+    hsts: true,
+    ieNoOpen: true,
+    noSniff: true,
+    referrerPolicy: true,
+    xssFilter: true,
   })
 );
 

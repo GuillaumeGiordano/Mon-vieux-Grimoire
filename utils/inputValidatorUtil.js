@@ -51,8 +51,24 @@ function isPasswordValid(password) {
  * @returns
  */
 function isYearNumber(input) {
-  const regex = /^\d{1,4}$/;
-  return regex.test(input);
+  // const regex = /^\d{1,4}$/;
+  // return regex.test(input);
+
+  // Convertit la chaîne en nombre
+  const number = parseInt(input, 10);
+  // L'année en cours
+  const currentYear = new Date().getFullYear();
+
+  if (isNaN(number)) {
+    return false;
+  }
+  if (input.length < 4 || input.length >= 5) {
+    return false;
+  }
+  if (number > currentYear) {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -61,7 +77,7 @@ function isYearNumber(input) {
  * @returns
  */
 function isLettersAndDigits(input) {
-  const regex = /^[a-zA-Z0-9]*$/;
+  const regex = /^[a-zA-Z0-9\s]*$/;
   return regex.test(input);
 }
 

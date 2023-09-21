@@ -3,6 +3,7 @@ const User = require("../../models/User.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const RANDOM_TOKEN_SECRET = process.env.RANDOM_TOKEN_SECRET;
+const TOKEN_TIME = process.env.TOKEN_TIME;
 
 // LOGIN
 exports.login = (req, res, next) => {
@@ -19,9 +20,16 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign({ userId: user._id }, RANDOM_TOKEN_SECRET, {
-              expiresIn: "24h", // mettre une varibale .ENV !!!!!
-            }),
+            token: jwt.sign(
+              {
+                userId: user._id,
+                role: "ADMIN",
+              },
+              RANDOM_TOKEN_SECRET,
+              {
+                expiresIn: TOKEN_TIME,
+              }
+            ),
           });
         })
         .catch((error) => res.status(500).json({ message: "error 500" })); // pour donner le - d'indice !!
