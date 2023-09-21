@@ -1,6 +1,6 @@
 // J'importe mon model "Book"
 const Book = require("../../models/Book");
-// const { optimizeImage } = require("../../middleware/resizeImage.js");
+
 /**
  * fs  signifie « file system » (soit « système de fichiers », en français).
  * Il nous donne accès aux fonctions qui nous permettent de modifier le système de fichiers,
@@ -10,7 +10,7 @@ const fs = require("fs");
 
 // POST
 exports.createNewBook = async (req, res, next) => {
-  // Je vérifi si j'ai bien un file dans ma requete !
+  // Je vérifi si j'ai bien un file dans la requete !
   if (!req.file) {
     return res.status(400).json({ message: "Aucun fichier envoyé !" });
   }

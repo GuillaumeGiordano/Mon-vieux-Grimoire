@@ -2,6 +2,7 @@ require("dotenv").config();
 
 // IMPORTS
 const express = require("express");
+const helmet = require("helmet");
 const bookRoutes = require("./routes/book.js");
 const userRoutes = require("./routes/user.js");
 const path = require("path");
@@ -13,6 +14,24 @@ connectDb();
 // INIT "express"
 const app = express();
 app.use(express.json());
+
+// Utilisation de helmet pour activer les en-têtes sécurisés
+app.use(helmet());
+
+/*
+ Configuration d'une CSP de base,Pour vérifier et
+ protéger votre application Express contre les tentatives
+ d'injection de code XSS (Cross-Site Scripting)
+*/
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+    },
+  })
+);
 
 // CONFIG du Headers : cela permet de faire communiquer deux serveur entre eux.
 app.use((req, res, next) => {
