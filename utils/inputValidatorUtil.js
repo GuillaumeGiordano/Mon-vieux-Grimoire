@@ -77,7 +77,7 @@ function isYearNumber(input) {
  * @returns
  */
 function isLettersAndDigits(input) {
-  const regex = /^[a-zA-Z0-9\s]*$/;
+  const regex = /^[a-zA-Z0-9\sàáâãäçèéêëìíîïñòóôõöùúûüýÿ]*$/;
   return regex.test(input);
 }
 

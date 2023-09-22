@@ -1,29 +1,34 @@
 // Import
 const inputValidatorUtil = require("../utils/inputValidatorUtil.js");
 
-module.exports = (req, res, next) => {
+// Methode export par nom du fichier pour changer !
+function validatorUser(req, res, next) {
   try {
-    const mail = req.body.email;
-    const password = req.body.password;
+    // Je récupere les variables email et password avec la methode destructuré
+    const { email, password } = req.body;
 
     // Utilisez la fonction de validation du mail avec regex
-    if (!inputValidatorUtil.isMailValid(mail)) {
-      return res.status(412).json({ error: "L'adresse e-mail n'est pas conforme." });
+    if (!inputValidatorUtil.isMailValid(email)) {
+      return res.status(412).json({
+        message: "L'adresse e-mail doit respecter des exigences de complexité.",
+      });
     } else {
-      console.log("Mail OK");
+      console.log("Le mail est conforme");
     }
 
     // Utilisez la fonction de validation du mot de passe
     if (!inputValidatorUtil.isPasswordValid(password)) {
       return res
         .status(413)
-        .json({ error: "Le mot de passe doit respecter des exigences de complexité." });
+        .json({ message: "Le mot de passe doit respecter des exigences de complexité." });
     } else {
-      console.log("Password OK");
+      console.log("Le password est conforme");
     }
 
     next();
   } catch (error) {
     res.status(401).json({ error });
   }
-};
+}
+
+module.exports = validatorUser;

@@ -9,7 +9,7 @@ function resizeAndSaveToDisk(req, res, next) {
       const bookObjet = JSON.parse(req.body.book);
 
       // Je défini le nom de ma photo
-      const extension = "jpg";
+      const extension = "jpeg";
       const titleBook = bookObjet.title.split(" ").join("_");
       const authorBook = bookObjet.author.split(" ").join("_");
       const name = `${titleBook}_${authorBook}_${Date.now()}_Optimized.${extension}`;
@@ -33,4 +33,4 @@ function resizeAndSaveToDisk(req, res, next) {
   }
 }
 
-module.exports = { resizeAndSaveToDisk };
+module.exports = resizeAndSaveToDisk;

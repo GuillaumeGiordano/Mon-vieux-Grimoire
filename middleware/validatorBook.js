@@ -1,10 +1,8 @@
 // Import
-const inputValidatorUtil = require("../utils/inputValidatorUtil.js");
+const { isLettersAndDigits, isYearNumber } = require("../utils/inputValidatorUtil.js");
 
 function validatorBook(req, res, next) {
   try {
-    // Je parse la requete modifier par multer : JSON.parse() transforme un objet stringifié en Object JavaScript exploitable.
-
     let myBook = {};
 
     if (!req.file) {
@@ -18,28 +16,28 @@ function validatorBook(req, res, next) {
     const { title, author, year, genre } = myBook;
 
     // Utilisez la fonction de validatin input avec regex
-    if (!inputValidatorUtil.isLettersAndDigits(title)) {
+    if (!isLettersAndDigits(title)) {
       return res
         .status(441)
         .json({ error: "Title contient des caractères non autorisés." });
     }
 
     // Utilisez la fonction de validatin input avec regex
-    if (!inputValidatorUtil.isLettersAndDigits(author)) {
+    if (!isLettersAndDigits(author)) {
       return res
         .status(442)
         .json({ error: "author contient des caractères non autorisés." });
     }
 
     // Utilisez la fonction de validatin input avec regex
-    if (!inputValidatorUtil.isLettersAndDigits(genre)) {
+    if (!isLettersAndDigits(genre)) {
       return res
         .status(443)
         .json({ error: "Genre contient des caractères non autorisés." });
     }
 
-    // Utilisez la fonction de validatin input avec regex
-    if (!inputValidatorUtil.isYearNumber(year)) {
+    // Utilisez la fonction de validatin input
+    if (!isYearNumber(year)) {
       return res
         .status(444)
         .json({ error: "Year contient des caractères non autorisés." });
@@ -47,8 +45,8 @@ function validatorBook(req, res, next) {
 
     next();
   } catch (error) {
-    res.status(440).json({ message: "pas bon !" });
+    res.status(440).json({ message: "Pas de chance ! Ca ne fonctionne pas :( " });
   }
 }
 
-module.exports = { validatorBook };
+module.exports = validatorBook;

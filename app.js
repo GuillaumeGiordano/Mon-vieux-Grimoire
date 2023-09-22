@@ -5,7 +5,7 @@ const express = require("express");
 const bookRoutes = require("./routes/book.js");
 const userRoutes = require("./routes/user.js");
 const path = require("path");
-const connectDb = require("./config/db.js");
+const { connectDb } = require("./config/db.js");
 const helmet = require("helmet");
 
 // CNX_BDD

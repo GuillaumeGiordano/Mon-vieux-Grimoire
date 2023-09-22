@@ -4,12 +4,12 @@ const router = express.Router();
 // J'importe les middlewears
 const validatorUser = require("../middleware/validatorUser.js");
 // J'importe le controller "user"
-const signUpCtrl = require("../controllers/user/signUp.js");
-const loginCtrl = require("../controllers/user/login.js");
+const { signUp } = require("../controllers/user/signUp.js");
+const { login } = require("../controllers/user/login.js");
 
 // ROUTES
-router.post("/signup", validatorUser, signUpCtrl.signUp);
-router.post("/login", validatorUser, loginCtrl.login);
+router.post("/signup", validatorUser, signUp);
+router.post("/login", validatorUser, login);
 
 // Export router
 module.exports = router;

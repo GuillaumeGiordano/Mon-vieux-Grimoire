@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const RANDOM_TOKEN_SECRET = process.env.RANDOM_TOKEN_SECRET;
 
-// Permet d'exporter suivant le nom du fichier !
+// Permet d'exporter suivant le nom du fichier garde pour exemple !
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
