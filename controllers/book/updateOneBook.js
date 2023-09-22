@@ -15,29 +15,11 @@ exports.updateBook = async (req, res, next) => {
   let bookObjet = {};
 
   if (req.file) {
-    // je récupére son nom et son extention
-    const imageName = req.file.filename.replace(/\.[^.]+$/, "");
-
-    // const extention = req.file.mimetype.replace(/^image\//i, "");
-    const extention = "png";
-
-    // Je récupére l'image stocké par multer
-    const imagePath = req.file.path;
-
-    // Nouveau name de l'image opti
-    const optimizedImage = `${imageName}_optimized.${extention}`;
-
-    // Je redimmenssione l'image
-    await sharp(imagePath)
-      .resize({ width: 800, height: 600 })
-      .toFile(`images/${optimizedImage}`);
-
-    // Supprimez l'ancien fichier image methode sync !!
-    fs.unlinkSync(imagePath);
-
+    // Je défini le nom de ma photo
+    const name = req.file.originalname;
     bookObjet = {
       ...JSON.parse(req.body.book),
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${optimizedImage}`,
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${name}`,
     };
   } else {
     bookObjet = { ...req.body };
@@ -65,11 +47,13 @@ exports.updateBook = async (req, res, next) => {
       // Je modifie mon enregistrement
       Book.updateOne({ _id: req.params.id }, { ...bookObjet, _id: req.params.id })
         .then(() => res.status(200).json({ message: "Article modifié, bravo !" }))
-        .catch((error) =>
-          res.status(401).json({ error, message: "Article non modifié, dommage !" })
-        );
+        .catch((error) => {
+          console.log("Article non modifié, dommage !");
+          res.status(401).json({ error, message: "Article non modifié, dommage !" });
+        });
     })
-    .catch((error) =>
-      res.status(400).json({ error, message: "Article non trouvé, dommage !" })
-    );
+    .catch((error) => {
+      console.log("Article non trouvé, dommage !");
+      res.status(400).json({ error, message: "Article non trouvé, dommage !" });
+    });
 };

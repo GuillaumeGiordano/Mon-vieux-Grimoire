@@ -2,27 +2,29 @@
 const express = require("express");
 // IMPORTS "middleware"
 const auth = require("../middleware/auth.js");
-const multer = require("../middleware/multer-config.js");
+const validatorBook = require("../middleware/validatorBook.js");
+const uploadImage = require("../middleware/uploadImage.js");
+const resizeAndSaveToDisk = require("../middleware/resizeAndSaveToDisk.js");
 // IMPORTS "controllers"
-const BookCtrlCreateNewBook = require("../controllers/book/createNewBook.js");
-const BookCtrlGetBestBooks = require("../controllers/book/getBestBooks.js");
-const BookCtrlDeleteOneBook = require("../controllers/book/deleteOneBook.js");
-const BookCtrlUpdateOneBook = require("../controllers/book/updateOneBook.js");
-const BookCtrlGetOneBook = require("../controllers/book/getOneBook.js");
-const BookCtrlGetAllBooks = require("../controllers/book/getAllBooks.js");
-const BookCtrlNewRating = require("../controllers/book/newRating.js");
+const { createNewBook } = require("../controllers/book/createNewBook.js");
+const { getBestBooks } = require("../controllers/book/getBestBooks.js");
+const { deleteOneBook } = require("../controllers/book/deleteOneBook.js");
+const { updateBook } = require("../controllers/book/updateOneBook.js");
+const { getOneBook } = require("../controllers/book/getOneBook.js");
+const { getAllBooks } = require("../controllers/book/getAllBooks.js");
+const { newRating } = require("../controllers/book/newRating.js");
 
 // Je crée ma variable "router" issue de "express"
 const router = express.Router();
 
 // ROUTES & CONTROLLERS
-router.get("/bestrating", BookCtrlGetBestBooks.getBestBooks);
-router.get("/", BookCtrlGetAllBooks.getAllBooks);
-router.get("/:id", BookCtrlGetOneBook.getOneBook);
-router.post("/", auth, multer, BookCtrlCreateNewBook.createNewBook);
-router.put("/:id", auth, multer, BookCtrlUpdateOneBook.updateBook);
-router.delete("/:id", auth, BookCtrlDeleteOneBook.deleteOneBook);
-router.post("/:id/rating", auth, BookCtrlNewRating.newRating);
+router.get("/bestrating", getBestBooks);
+router.get("/", getAllBooks);
+router.get("/:id", getOneBook);
+router.post("/", auth, uploadImage, validatorBook, resizeAndSaveToDisk, createNewBook);
+router.put("/:id", auth, uploadImage, validatorBook, resizeAndSaveToDisk, updateBook);
+router.delete("/:id", auth, deleteOneBook);
+router.post("/:id/rating", auth, newRating);
 
 // Export "router" pour "app"
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const apiUser = process.env.USER_BDD;
 const apiKey = process.env.PASSWORD_BDD;
 
-const connectDb = async () => {
+async function connectDb() {
   try {
     mongoose.set("strictQuery", false);
     await mongoose.connect(
@@ -17,6 +17,6 @@ const connectDb = async () => {
     console.log("Connexion à MongoDB échouée ! : " + error);
     process.exit();
   }
-};
+}
 
-module.exports = connectDb;
+module.exports = { connectDb };

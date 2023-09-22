@@ -22,7 +22,7 @@ exports.deleteOneBook = (req, res, next) => {
       // Je trouve l'image
       const fileName = book.imageUrl.split("/images/")[1];
 
-      // Je supp l'image methode promesse !!
+      // Je supp l'image
       fs.unlinkSync(`images/${fileName}`);
 
       // Je supprime !
