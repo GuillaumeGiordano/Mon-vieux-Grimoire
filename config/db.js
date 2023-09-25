@@ -1,22 +1,19 @@
-const mongoose = require("mongoose");
-const apiUser = process.env.USER_BDD;
-const apiKey = process.env.PASSWORD_BDD;
+const mongoose = require('mongoose')
+
+const { MONGODB_KEY } = process.env
 
 async function connectDb() {
   try {
-    mongoose.set("strictQuery", false);
-    await mongoose.connect(
-      `mongodb+srv://${apiUser}:${apiKey}@cluster0.ec3aaw9.mongodb.net/OC_P7`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
-    console.log("Connexion à MongoDB réussie !");
+    mongoose.set('strictQuery', false)
+    await mongoose.connect(MONGODB_KEY, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    // eslint-disable-next-line no-console
+    return console.log('MongoDB OK')
   } catch (error) {
-    console.log("Connexion à MongoDB échouée ! : " + error);
-    process.exit();
+    process.exit()
   }
 }
 
-module.exports = { connectDb };
+module.exports = { connectDb }
