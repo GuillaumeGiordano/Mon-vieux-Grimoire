@@ -24,7 +24,8 @@ function resizeAndSaveToDisk(req, res, next) {
         .toFormat(extension)
         .toFile(`images/${name}`);
     }
-
+    // NEttoyer memorystorage !
+    req.file.buffer = null;
     next();
   } catch (err) {
     return res
