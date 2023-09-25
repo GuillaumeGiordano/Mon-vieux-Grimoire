@@ -1,58 +1,61 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-restricted-globals */
+
 // J'importe la methode http de node.js
-const http = require("http");
+const http = require('http')
 
 // J'importe la methode "app" que j'ai créé avec "express"
-const app = require("./app");
+const app = require('./app')
 
 // Une fonction qui vérifie si le PORT est bon -- Voir peut etre TS
 const normalizePort = (val) => {
-  const port = parseInt(val, 10);
+  const port = parseInt(val, 10)
 
   if (isNaN(port)) {
-    return val;
+    return val
   }
   if (port >= 0) {
-    return port;
+    return port
   }
-  return false;
-};
+  return false
+}
 
 // Je défini ma variable PORT en vérifiant sa validation avec une fonction !
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || '3000')
 
 // Défini le PORT à "express"
-app.set("port", port);
+app.set('port', port)
 
 // gére le type d'error
 const errorHandler = (error) => {
-  if (error.syscall !== "listen") {
-    throw error;
+  if (error.syscall !== 'listen') {
+    throw error
   }
-  const address = server.address();
-  const bind = typeof address === "string" ? "pipe " + address : "port: " + port;
+  const address = server.address()
+  const bind = typeof address === 'string' ? `pipe ${address}` : `port: ${port}`
   switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges.");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use.");
-      process.exit(1);
-      break;
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges.`)
+      process.exit(1)
+      break
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use.`)
+      process.exit(1)
+      break
     default:
-      throw error;
+      throw error
   }
-};
+}
 
 // Je crée mon serveur en mettant la methode "app" que j'ai créé avec "express"
-const server = http.createServer(app);
+const server = http.createServer(app)
 
-server.on("error", errorHandler);
-server.on("listening", () => {
-  const address = server.address();
-  const bind = typeof address === "string" ? "pipe " + address : "port " + port;
-  console.log("Listening on " + bind);
-});
+server.on('error', errorHandler)
+server.on('listening', () => {
+  const address = server.address()
+  const bind = typeof address === 'string' ? `pipe ${address}` : `port ${port}`
+  console.log(`Listening on ${bind}`)
+})
 
 // Je lance mon serveur
-server.listen(port);
+server.listen(port)

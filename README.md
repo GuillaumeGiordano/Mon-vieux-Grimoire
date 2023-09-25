@@ -24,8 +24,15 @@ REMARQUE : À ce stade, vous verrez une note sur les vulnérabilités, comme nou
 
 # Etape N°3 - Configuration :
 
-1/ Création du dossier images dans la racine du projet : Mon-vieux-Grimmoire/`images`
-2/ Création et configuration d'un fichier `.env`
+1/ Création du `dossier` "images" dans la racine du projet : Mon-vieux-Grimmoire/`images`
+2/ Création et configuration d'un `fichier` : Mon-vieux-Grimmoire/`.env`
+
+Copier/Coller :
+
+MONGODB_KEY = "`Mettre votre lien MongoDB`"
+PORT = "4000"
+RANDOM_TOKEN_SECRET = "nyX9qI1K4uRCwkNNm8Ktv2OG9diFbUWIDCrw/oEU6hkn0Ol7+nHbfjiMAH39moviDDNXAJ4cSsLO1LUSqYg1k7kkwyofyoTfSHGZvTK1tuF5Dl8PRANIcGdr30ujFAKL3T2oqJv82BLNrzml9WSQLfBRJDIXGhLPUDHV2jNWEuLjm9atou+y2usj/H+H7Q0JGKmpPQdLqSV+A3odKxn0YN7P8g1wgJvNe426z/b+/GggQ4fTfpa1tzNd137e/wWdIktHrKfqDwIrCci3ug6Hps/cWbkMZ35vnAPvjRylOK6AuFWoCCsZoWjGOMr+SvHxFBYLqjVd1OMwSUhUQUyxMS604GN0JifwNEVGHvcbFRx2Nzj93/9HD1oDqCwu2C+WgGWa2RC0poqUU9pP6cftVPPOIbGltjJLlPEyWS2Bqyh9tUi4p4soY4c9hxwcvHJZbuIxzpXBYNPlKGV6PFxeYhFZjNJnurHcvCWjxTNDHDVMeKJcNQSG"
+TOKEN_TIME = "24h"
 
 # Etape N°4 - Démarrer le serveur :
 
@@ -34,3 +41,5 @@ Si vous jetez un coup d'œil à l'intérieur du fichier package.json du projet c
 REMARQUE : Si votre serveur de développement est toujours en cours d'exécution, vous pouvez l'arrêter avec Ctrl+C.
 
 # Etape N°5 - A vous de jouer :
+
+Happy coding !
