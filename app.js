@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit')
 const bookRoutes = require('./routes/book')
 const userRoutes = require('./routes/user')
 const { connectDb } = require('./config/db')
+const { isFolderExist } = require('./middleware/isFolderExist')
 
 // CNX_BDD
 connectDb()
@@ -58,11 +59,14 @@ app.use((req, res, next) => {
 app.use(
   rateLimit({
     windowMs: 60 * 1000, // période d'une minute
-    max: 20,
-    message: 'Vous avez atteint la limite de 100 requêtes par minutes !',
+    max: 10,
+    message: 'Vous avez atteint la limite de 10 requêtes par minutes !',
     headers: true,
   }),
 )
+
+// Je vérifie si ./images existe !
+app.use(isFolderExist)
 
 // ROUTES
 app.use('/api/auth', userRoutes)
