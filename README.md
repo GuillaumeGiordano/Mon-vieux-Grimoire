@@ -20,14 +20,14 @@ Ouvrez ce nouveau dossier `Mon-vieux-Grimmoire` dans un éditeur de code (ex: VS
 Ouvrez le terminal (ctrl+ ù)
 Exécutez la commande `npm install` (ou `npm i`).
 
-REMARQUE : À ce stade, vous verrez une note sur les vulnérabilités, comme nous l'avons abordé dans la dernière section de ce guide. Elle peut indiquer quelque chose comme "trouvé 0 vulnérabilité" (comme dans la capture d'écran ci-dessus), mais il est fort possible que ce nombre soit supérieur à zéro. Si vous voyez des vulnérabilités, ne vous inquiétez pas. Vous êtes libre de les ignorer pour l'instant puisqu'il ne s'agit pas d'un projet que nous avons l'intention de lancer en production pour que d'autres puissent le voir ou l'utiliser.
+REMARQUE : À ce stade, vous verrez une note sur les vulnérabilités, comme nous l'avons abordé dans la dernière section de ce guide. Elle peut indiquer quelque chose comme "trouvé 0 vulnérabilité", mais il est fort possible que ce nombre soit supérieur à zéro. Si vous voyez des vulnérabilités, ne vous inquiétez pas. Vous êtes libre de les ignorer pour l'instant puisqu'il ne s'agit pas d'un projet que nous avons l'intention de lancer en production pour que d'autres puissent le voir ou l'utiliser.
 
 # Etape N°3 - Configuration :
 
 1/ Création du `dossier` "images" dans la racine du projet : Mon-vieux-Grimmoire/`images`
 2/ Création et configuration d'un `fichier` : Mon-vieux-Grimmoire/`.env`
 
-Copier/Coller :
+Copier/Coller dans le fichier `.env` :
 
 MONGODB_KEY = "`Mettre votre lien MongoDB`"
 PORT = "4000"

@@ -1,18 +1,19 @@
-const jwt = require("jsonwebtoken");
-const RANDOM_TOKEN_SECRET = process.env.RANDOM_TOKEN_SECRET;
+const jwt = require('jsonwebtoken')
+
+const { RANDOM_TOKEN_SECRET } = process.env
 
 // Permet d'exporter suivant le nom du fichier garde pour exemple !
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, RANDOM_TOKEN_SECRET);
-    const userId = decodedToken.userId;
+    const token = req.headers.authorization.split(' ')[1]
+    const decodedToken = jwt.decode(token, RANDOM_TOKEN_SECRET)
+    const { userId } = decodedToken
     req.auth = {
-      userId: userId,
-    };
+      userId,
+    }
 
-    next();
+    next()
   } catch (error) {
-    res.status(410).json({ message: "Authentification a échoué !" });
+    res.status(410).json({ message: 'Authentification a échoué !' })
   }
-};
+}
