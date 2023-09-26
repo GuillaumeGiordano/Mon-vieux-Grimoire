@@ -10,7 +10,6 @@ const app = require('./app')
 // Une fonction qui vérifie si le PORT est bon -- Voir peut etre TS
 const normalizePort = (val) => {
   const port = parseInt(val, 10)
-
   if (isNaN(port)) {
     return val
   }
