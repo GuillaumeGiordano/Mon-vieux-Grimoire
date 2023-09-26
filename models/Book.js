@@ -1,7 +1,5 @@
 // J'importe "mongoose" pour l'utiliser
-const mongoose = require("mongoose");
-
-// const uniqueValidator = require("mongoose-unique-validator");
+const mongoose = require('mongoose')
 
 // Je crée mon Schema.
 const bookSchema = mongoose.Schema({
@@ -18,10 +16,7 @@ const bookSchema = mongoose.Schema({
     },
   ],
   averageRating: { type: Number, required: true },
-});
-
-// UNIQUE ?
-// bookSchema.plugin(uniqueValidator);
+})
 
 // J'exporte mon Schema pour l'utiliser.
-module.exports = mongoose.model("Book", bookSchema);
+module.exports = mongoose.model('Book', bookSchema)

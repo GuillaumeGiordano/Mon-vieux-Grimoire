@@ -9,7 +9,7 @@ const Book = require('../../models/Book')
 
 // POST
 // eslint-disable-next-line consistent-return
-exports.createNewBook = async (req, res) => {
+exports.createNewBook = async (req, res, next) => {
   try {
     // Je vérifi si j'ai bien un file dans la requete !
     if (!req.file) {
@@ -43,6 +43,8 @@ exports.createNewBook = async (req, res) => {
       .catch((error) => {
         res.status(400).json({ error })
       })
+
+    next()
   } catch (error) {
     res.status(400).json({ error })
   }

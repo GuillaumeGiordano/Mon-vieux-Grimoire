@@ -1,22 +1,22 @@
 function isFileExtentionValid(originalname) {
   try {
-    const originalFileName = originalname;
+    const originalFileName = originalname
 
     // Obtenez l'extension du fichier en divisant le nom de fichier par le point (.)
-    const fileExtension = originalFileName.split(".").pop().toLowerCase();
+    const fileExtension = originalFileName.split('.').pop().toLowerCase()
 
     // Liste des extensions autorisées
-    const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']
 
     // Vérifiez si l'extension est autorisée
     if (!allowedExtensions.includes(fileExtension)) {
-      return false;
+      return false
     }
 
-    return true;
+    return true
   } catch (error) {
-    console.log("erreur sur le code ! ");
+    console.log('erreur sur le code ! ')
   }
 }
 
-module.exports = { isFileExtentionValid };
+module.exports = { isFileExtentionValid }

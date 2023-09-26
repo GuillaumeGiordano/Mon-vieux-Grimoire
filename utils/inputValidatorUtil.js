@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /**
  * Regex détecter les balises HTML, JavaScript et
  * les attributs couramment utilisés dans les attaques XSS :
@@ -5,8 +6,8 @@
  * @returns
  */
 function isSafeInput(input) {
-  const regex = /<[a-zA-Z][^\s]*\s*\/?>|<\/[a-zA-Z]+>|javascript:|on[a-zA-Z]+=/i;
-  return regex.test(input);
+  const regex = /<[a-zA-Z][^\s]*\s*\/?>|<\/[a-zA-Z]+>|javascript:|on[a-zA-Z]+=/i
+  return regex.test(input)
 }
 
 /**
@@ -16,8 +17,8 @@ function isSafeInput(input) {
  */
 function isMailValid(email) {
   // Utilisez une regex pour valider l'adresse e-mail
-  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return regex.test(email);
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  return regex.test(email)
 }
 
 /**
@@ -28,21 +29,21 @@ function isMailValid(email) {
 function isPasswordValid(password) {
   // Vérifier la longueur minimale au moins 8 caractères
   if (password.length < 8) {
-    console.log("Vérifier la longueur minimale au moins 8 caractères.");
-    return false;
+    console.log('Vérifier la longueur minimale au moins 8 caractères.')
+    return false
   }
   // Vérifier la présence d'au moins une lettre en majuscule
   if (!/[A-Z]/.test(password)) {
-    console.log("Vérifier la présence d'au moins une lettre en majuscule.");
-    return false;
+    console.log("Vérifier la présence d'au moins une lettre en majuscule.")
+    return false
   }
   // Vérifier la présence d'au moins un chiffre
   if (!/\d/.test(password)) {
-    console.log("Vérifier la présence d'au moins un chiffre.");
-    return false;
+    console.log("Vérifier la présence d'au moins un chiffre.")
+    return false
   }
   // Si toutes les conditions sont satisfaites, le mot de passe est valide
-  return true;
+  return true
 }
 
 /**
@@ -55,20 +56,21 @@ function isYearNumber(input) {
   // return regex.test(input);
 
   // Convertit la chaîne en nombre
-  const number = parseInt(input, 10);
+  const number = parseInt(input, 10)
   // L'année en cours
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
+  // eslint-disable-next-line no-restricted-globals
   if (isNaN(number)) {
-    return false;
+    return false
   }
   if (input.length < 4 || input.length >= 5) {
-    return false;
+    return false
   }
   if (number > currentYear) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
 /**
@@ -77,8 +79,8 @@ function isYearNumber(input) {
  * @returns
  */
 function isLettersAndDigits(input) {
-  const regex = /^[a-zA-Z0-9\sàáâãäçèéêëìíîïñòóôõöùúûüýÿ]*$/;
-  return regex.test(input);
+  const regex = /^[a-zA-Z0-9\sàáâãäçèéêëìíîïñòóôõöùúûüýÿ]*$/
+  return regex.test(input)
 }
 
 module.exports = {
@@ -87,4 +89,4 @@ module.exports = {
   isLettersAndDigits,
   isMailValid,
   isPasswordValid,
-};
+}

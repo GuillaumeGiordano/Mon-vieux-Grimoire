@@ -4,6 +4,7 @@ require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const helmet = require('helmet')
+const rateLimit = require('express-rate-limit')
 const bookRoutes = require('./routes/book')
 const userRoutes = require('./routes/user')
 const { connectDb } = require('./config/db')
@@ -52,6 +53,16 @@ app.use((req, res, next) => {
   )
   next()
 })
+
+// express-rate-limit qui nous permettra de configurer la limitation de taux sur notre API
+app.use(
+  rateLimit({
+    windowMs: 60 * 1000, // période d'une minute
+    max: 20,
+    message: 'Vous avez atteint la limite de 100 requêtes par minutes !',
+    headers: true,
+  }),
+)
 
 // ROUTES
 app.use('/api/auth', userRoutes)
